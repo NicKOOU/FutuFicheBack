@@ -46,6 +46,15 @@ const fiche = sequelize.define('Payslip', {
         type: DataTypes.INTEGER,
         allowNull: false,
     },
+
+    username: {
+        type: DataTypes.STRING,
+        references: {
+            model: 'Users',
+            key: 'username',
+        },
+        onDelete: 'CASCADE',
+    },
 });
 
 module.exports = fiche;

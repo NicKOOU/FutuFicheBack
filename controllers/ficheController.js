@@ -1,22 +1,95 @@
 const Fiche = require('../models/ficheModel');
+const User = require('../models/userModel');
 
 const addFiche = async (req, res) => {
-    // Ajouter la logique d'ajout de fiche ici
-    try {
-        // Exemple : créer une fiche avec les données reçues
-        const newFiche = await Fiche.create({
-            // Propriétés de la fiche à partir des données reçues
-        });
+    const ficheData = req.body;
 
-        res.status(201).json({ message: 'Fiche ajoutée avec succès', fiche: newFiche });
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: 'Erreur lors de l\'ajout de la fiche' });
+    if (!ficheData.employer || !ficheData.period || !ficheData.jobTitle || !ficheData.baseSalary || !ficheData.totalNetSocial || !ficheData.netToPayBeforeIncomeTax || !ficheData.incomeTax || !ficheData.netPay || !ficheData.leaveN || !ficheData.leaveN1 || !ficheData.restaurantCoupons) {
+        return res.status(400).json({ error: 'Veuillez fournir toutes les informations requises' });
     }
+
+    const user = await User.findOne({
+        where: {
+            username: req.user.username,
+        },
+    });
+
+
+    ficheData.username = user.username;
+
+    const newFiche = await Fiche.create(ficheData);
+
+
+    return res.status(201).json({ message: 'Fiche ajoutée avec succès', fiche: newFiche });
 };
 
-// Ajoutez d'autres méthodes pour la gestion des fiches de paie
+const getFiches = async (req, res) => {
+    const fiches = await Fiche.findAll({
+        where: {
+            userId: req.user.id,
+        },
+        attributes: ['netPay', 'period', 'employer'],
+    });
+
+    return res.status(200).json({ fiches });
+};
+
+const getFiche = async (req, res) => {
+    const fiche = await Fiche.findOne({
+        where: {
+            id: req.params.id,
+        },
+    });
+
+    if (!fiche) {
+        return res.status(404).json({ error: 'Fiche non trouvée' });
+    }
+
+    return res.status(200).json({ fiche });
+};
+
+const updateFiche = async (req, res) => {
+    const fiche = await Fiche.findOne({
+        where: {
+            id: req.params.id,
+        },
+    });
+
+    if (!fiche) {
+        return res.status(404).json({ error: 'Fiche non trouvée' });
+    }
+
+    const ficheData = req.body;
+
+    if (!ficheData.employer || !ficheData.period || !ficheData.jobTitle || !ficheData.baseSalary || !ficheData.totalNetSocial || !ficheData.netToPayBeforeIncomeTax || !ficheData.incomeTax || !ficheData.netPay || !ficheData.leaveN || !ficheData.leaveN1 || !ficheData.restaurantCoupons) {
+        return res.status(400).json({ error: 'Veuillez fournir toutes les informations requises' });
+    }
+
+    await fiche.update(ficheData);
+
+    return res.status(200).json({ message: 'Fiche mise à jour avec succès', fiche });
+};
+
+const deleteFiche = async (req, res) => {
+    const fiche = await Fiche.findOne({
+        where: {
+            id: req.params.id,
+        },
+    });
+
+    if (!fiche) {
+        return res.status(404).json({ error: 'Fiche non trouvée' });
+    }
+
+    await fiche.destroy();
+
+    return res.status(200).json({ message: 'Fiche supprimée avec succès' });
+};
 
 module.exports = {
     addFiche,
+    getFiches,
+    getFiche,
+    updateFiche,
+    deleteFiche,
 };

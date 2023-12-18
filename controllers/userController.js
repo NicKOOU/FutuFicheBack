@@ -4,7 +4,6 @@ const Joi = require('joi');
 const User = require('../models/userModel');
 
 const register = async (req, res) => {
-    // Validation des données d'inscription
     const schema = Joi.object({
         username: Joi.string().required().required(),
         email: Joi.string().email().required(),
@@ -18,7 +17,6 @@ const register = async (req, res) => {
     }
 
     try {
-        // Vérifier si le nom d'utilisateur ou l'email est déjà utilisé
         const existingUser = await User.findOne({
             where: {
                 username: req.body.username,
@@ -30,10 +28,8 @@ const register = async (req, res) => {
             return res.status(400).json({ error: 'Nom d\'utilisateur ou email déjà utilisé' });
         }
 
-        // Hasher le mot de passe
         const hashedPassword = await bcrypt.hash(req.body.password, 10);
 
-        // Créer un nouvel utilisateur
         const newUser = await User.create({
             username: req.body.username,
             email: req.body.email,
