@@ -2,13 +2,13 @@ const express = require('express');
 const router = express.Router();
 const FicheController = require('../controllers/ficheController');
 
-router.get('/get', FicheController.getFiches);
+router.get('/getFiches/:username', FicheController.getFiches);
 
-router.get('/:id', FicheController.getFiche);
+router.get('/:username', FicheController.getFiche);
 
-router.put('/:id', FicheController.updateFiche);
+router.put('/:username', FicheController.updateFiche);
 
-router.delete('/:id', FicheController.deleteFiche);
+router.delete('/:username', FicheController.deleteFiche);
 
 router.post('/create', FicheController.addFiche);
 

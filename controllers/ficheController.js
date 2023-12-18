@@ -10,7 +10,7 @@ const addFiche = async (req, res) => {
 
     const user = await User.findOne({
         where: {
-            username: req.user.username,
+            username: ficheData.user.username,
         },
     });
 
@@ -26,7 +26,7 @@ const addFiche = async (req, res) => {
 const getFiches = async (req, res) => {
     const fiches = await Fiche.findAll({
         where: {
-            userId: req.user.id,
+            username: req.params.username,
         },
         attributes: ['netPay', 'period', 'employer'],
     });
@@ -37,7 +37,7 @@ const getFiches = async (req, res) => {
 const getFiche = async (req, res) => {
     const fiche = await Fiche.findOne({
         where: {
-            id: req.params.id,
+            id: req.params.username,
         },
     });
 
@@ -51,7 +51,7 @@ const getFiche = async (req, res) => {
 const updateFiche = async (req, res) => {
     const fiche = await Fiche.findOne({
         where: {
-            id: req.params.id,
+            id: req.params.username,
         },
     });
 
@@ -73,7 +73,8 @@ const updateFiche = async (req, res) => {
 const deleteFiche = async (req, res) => {
     const fiche = await Fiche.findOne({
         where: {
-            id: req.params.id,
+            id: req.params.username,
+
         },
     });
 
