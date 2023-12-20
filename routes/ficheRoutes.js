@@ -4,11 +4,11 @@ const FicheController = require('../controllers/ficheController');
 
 router.get('/getFiches/:username', FicheController.getFiches);
 
-router.get('/:username', FicheController.getFiche);
+router.get('/:username/:ficheId', FicheController.getFiche);
 
-router.put('/:username', FicheController.updateFiche);
+router.put('/:username/:ficheId', FicheController.updateFiche);
 
-router.delete('/:username', FicheController.deleteFiche);
+router.delete('/:username/:ficheId', FicheController.deleteFiche);
 
 router.post('/create', FicheController.addFiche);
 

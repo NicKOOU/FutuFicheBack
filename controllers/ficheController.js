@@ -16,6 +16,7 @@ const addFiche = async (req, res) => {
 
 
     ficheData.username = user.username;
+    ficheData.ficheId = `${ficheData.period}${ficheData.employer}`;
 
     const newFiche = await Fiche.create(ficheData);
 
@@ -37,7 +38,8 @@ const getFiches = async (req, res) => {
 const getFiche = async (req, res) => {
     const fiche = await Fiche.findOne({
         where: {
-            id: req.params.username,
+            username: req.params.username,
+            ficheId: req.params.ficheId,
         },
     });
 

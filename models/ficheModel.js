@@ -2,6 +2,12 @@ const { DataTypes } = require('sequelize');
 const sequelize = require('../db');
 
 const fiche = sequelize.define('Payslip', {
+    ficheId: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        primaryKey: true,
+        unique: true,
+    },
     employer: {
         type: DataTypes.STRING,
         allowNull: false,
