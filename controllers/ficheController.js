@@ -22,6 +22,7 @@ const addFiche = async (req, res) => {
         const newFiche = await Fiche.create(ficheData);
         return res.status(200).json({ message: 'Fiche ajoutée avec succès', fiche: newFiche });
     } catch (error) {
+        console.error(error);
         return res.status(500).json({ error: 'Erreur lors de la création de la fiche' });
     }
 
