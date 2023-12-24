@@ -10,7 +10,7 @@ const addFiche = async (req, res) => {
 
     const user = await User.findOne({
         where: {
-            username: ficheData.user.username,
+            username: ficheData.username,
         },
     });
 
@@ -21,7 +21,7 @@ const addFiche = async (req, res) => {
     const newFiche = await Fiche.create(ficheData);
 
 
-    return res.status(201).json({ message: 'Fiche ajoutée avec succès', fiche: newFiche });
+    return res.status(200).json({ message: 'Fiche ajoutée avec succès', fiche: newFiche });
 };
 
 const getFiches = async (req, res) => {
