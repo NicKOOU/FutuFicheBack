@@ -18,10 +18,14 @@ const addFiche = async (req, res) => {
     ficheData.username = user.username;
     ficheData.ficheId = `${ficheData.period}${ficheData.employer}`;
 
-    const newFiche = await Fiche.create(ficheData);
+    try {
+        const newFiche = await Fiche.create(ficheData);
+        return res.status(200).json({ message: 'Fiche ajoutée avec succès', fiche: newFiche });
+    } catch (error) {
+        return res.status(500).json({ error: 'Erreur lors de la création de la fiche' });
+    }
 
 
-    return res.status(200).json({ message: 'Fiche ajoutée avec succès', fiche: newFiche });
 };
 
 const getFiches = async (req, res) => {
