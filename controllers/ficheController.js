@@ -80,8 +80,8 @@ const updateFiche = async (req, res) => {
 const deleteFiche = async (req, res) => {
     const fiche = await Fiche.findOne({
         where: {
-            id: req.params.username,
-
+            username: req.params.username,
+            ficheId: req.params.ficheId,
         },
     });
 
