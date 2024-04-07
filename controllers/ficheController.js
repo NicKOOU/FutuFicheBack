@@ -33,8 +33,7 @@ const getFiches = async (req, res) => {
     const fiches = await Fiche.findAll({
         where: {
             username: req.params.username,
-        },
-        attributes: ['netPay', 'period', 'employer'],
+        }
     });
 
     return res.status(200).json({ fiches });
